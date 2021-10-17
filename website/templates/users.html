@@ -1,5 +1,5 @@
 {% extends "base.html" %} {% block title %}Users{% endblock %} {% block content
-%} {% if user.id == 1 %}
+%} {% if user.id == 1 or user.admin%}
 <h1 align="left">Users</h1>
 <table class="table table-striped">
   <thead>

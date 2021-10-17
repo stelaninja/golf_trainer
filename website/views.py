@@ -19,15 +19,11 @@ import json
 views = Blueprint("views", __name__)
 
 
+# @login_required
 @views.route("/", methods=["GET", "POST"])
-@login_required
 def home():
-    # form = AircraftForm()
-    # aircrafts = Aircraft.query.order_by(Aircraft.id).all()
 
-    return render_template(
-        "home.html", user=current_user
-    )  # "home.html", aircrafts=aircrafts, user=current_user, form=form,
+    return render_template("home.html", user=current_user)
 
 
 @login_required
@@ -50,6 +46,7 @@ def survey():
 @login_required
 @views.route("/edit-user", methods=["GET", "POST"])
 def edit_user():
+    print(current_user.admin)
     if request.method == "POST":
         user_id = request.form.get("user_id")
         user_it = User.query.filter_by(id=user_id).first()
