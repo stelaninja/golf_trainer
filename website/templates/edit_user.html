@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% block title %}
+   Edit User
+{% endblock %}
+{% block content %}
+<div class="grey_box">
+<h1 align="left">Edit User</h1>
+  <form method="POST" action="update-user">
+    {{ form.csrf_token() }}
+    <br/>
+    <h6>User</h6>
+    <div class="row">
+      <div class="col-sm-1">
+        <div class="form-floating">
+          {{ form.user_id(class="form-control", type="text", id="user_id", value=user_it.id) }}
+          <label for="user_id" class="form-label">{{ form.user_id.label }}</label>
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="form-floating">
+          {{ form.user_first_name(class="form-control", type="text", id="user_first_name", value=user_it.first_name) }}
+          <label for="user_first_name" class="form-label">{{ form.user_first_name.label }}</label>
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="form-floating">
+          {{ form.user_last_name(class="form-control", type="text", id="user_last_name", value=user_it.last_name) }}
+          <label for="user_last_name" class="form-label">{{ form.user_last_name.label }}</label>
+        </div>
+      </div>
+      
+      <div class="col-sm-4">
+        <div class="form-floating">
+          {{ form.user_email(class="form-control", type="text", id="user_email", value=user_it.email) }}
+          <label for="user_email" class="form-label">{{ form.user_email.label }}</label>
+        </div>
+      </div>
+    </div>
+    <br />
+  
+    <h6>Permissions</h6>
+    
+    <div class="col-sm-2">
+      {% if user_it.admin == True %}
+      <input type="radio" class="btn-check" name="user_is_admin" id="user_admin" value="True" autocomplete="off" checked>
+      <label class="btn btn-outline-secondary" for="user_admin">Admin</label>
+
+      <input type="radio" class="btn-check" name="user_is_admin" id="user_not_admin" value="False" autocomplete="off">
+      <label class="btn btn-outline-danger" for="user_not_admin">User</label>
+
+      {% else %}
+      <input type="radio" class="btn-check" name="user_is_admin" id="user_admin" value="True" autocomplete="off">
+      <label class="btn btn-outline-secondary" for="user_admin">Admin</label>
+
+      <input type="radio" class="btn-check" name="user_is_admin" id="user_not_admin" value="False" autocomplete="off" checked>
+      <label class="btn btn-outline-danger" for="user_not_admin">User</label>
+      {% endif %}
+    </div>
+    
+    
+    <br />
+    <div align="left">
+      <a href="{{ url_for("views.home") }}" class="btn btn-primary">Back</a>
+      <input type="hidden" id="user_id" name="user_id" value="{{ user.id }}"/>
+      <button type="submit" action="update-user" class="btn btn-warning" aria-label="Update">
+          Update User
+      </button>
+      <button type="button" class="btn btn-danger" aria-label="Delete" onClick="deleteUser({{ user_it.id }})">
+          Delete
+      </button>
+  </div>
+</form>
+
+<!-- THE ENVELOPE MODAL DIALOG -->
+
+<div class="modal fade-scale" id="envelopeModal" role="dialog" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Add Envelope Points</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form id="envelopeForm" name="envelopeForm">
+                  <input type="hidden" name="id" id="id" value="0">
+                  <div class="row">
+                      <div class="col-sm-12">
+                          <div class="form-group">
+                              <label >Weight Limit</label>
+                              <input class="form-control" placeholder="Weight" name="weight" id="weight" type="text" value="">
+                          </div>
+                      </div>
+                      <div class="col-sm-12">
+                          <div class="form-group">
+                              <label >CG Distance from datum</label>
+                              <input class="form-control" placeholder="CG Distance" name="cg_envelope" id="cg_envelope" type="text" value="">
+                          </div>
+                      </div>
+                  </div>
+              </form>
+              <br />
+              <div class="container">
+                <div class="row justify-content-md-center text-center">
+                  <div class="col md-auto bg-light">
+                    Values are needed for at least 4 points<br/>
+                    added in clockwise or counter clockwise order.
+                  </div>
+                </div>
+              </div>
+
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="saveEnvelope">Save</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- END OF ENVELOPE MODAL DIALOG -->
+
+
+<!-- THE LOAD POINT MODAL DIALOG -->
+
+<div class="modal fade-scale" id="loadpointModal" role="dialog" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Add New Load Point</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form id="loadpointForm" name="loadpointForm">
+                {{ form.csrf_token() }}
+                  <input type="hidden" name="id" id="id" value="0">
+                  <div class="row">
+                      <div class="col-sm-12">
+                          <div class="form-group">
+                              <label >Name</label>
+                              <input class="form-control" placeholder="Name" name="name" id="name" type="text" value="">
+                          </div>
+                      </div>
+                      <div class="col-sm-12">
+                          <div class="form-group">
+                              <label >CG Distance from datum</label>
+                              <input class="form-control" placeholder="CG Distance" name="cg_distance" id="cg_distance" type="text" value="">
+                          </div>
+                      </div>
+                  </div>
+              </form>
+              <br />
+              <div class="container">
+                <div class="row justify-content-md-center text-center">
+                  <div class="col md-auto bg-light">
+                    Values for at least the points<br/>
+                    <b>"empty_weight", "pilot" and "fuel"</b><br/>
+                    are needed for calculations.<br/>
+                  </div>
+                </div>
+                <div class="row text-center">
+                  <div class="col md-auto bg-danger">
+                    If not added they will be added at zero distance.
+                  </div>
+                </div>
+                
+              </div>
+
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="saveLoadpoint">Save</button>
+          </div>
+      </div>
+  </div>
+</div>
+</div>
+<!-- END OF LOAD POINT MODAL DIALOG -->
+{% endblock %}
