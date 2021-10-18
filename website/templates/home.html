@@ -9,12 +9,11 @@
 
 </div>
 <div class="jumbotron">
-  <h1>It's easier with Votr!</h1>
-  <p class="lead">Create free online polls today with Votr</p>
-
+  <h1>Golf Training made easy</h1>
+  <p class="lead">Create a feedback poll</p>
   
   {% if not current_user %}
-  <p><a class="btn btn-lg btn-success" href="{{ url_for('auth.sign_up') }}" role="button">Sign up today</a></p>
+  <p><a class="btn btn-lg btn-success" href="{{ url_for('auth.sign_up') }}" role="button">Sign up</a></p>
   {% else %}
   <p><a class="btn btn-lg btn-success" href="/polls" role="button">Create a poll</a></p>
   {% endif %}
@@ -23,9 +22,8 @@
 <br />
 <div class="row marketing">
   <div class="col-lg-6">
-    <h3>Popular votes</h3>
-    <p>It's so easy to use Votr, just create an account and you can start
-    creating polls for the world to see!</p>
+    <h3>Satisfaction rates</h3>
+    <p>Having satisfied participants is key to getting new members!</p>
   </div>
 
   <div class="col-lg-6">

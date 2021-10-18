@@ -1,3 +1,4 @@
+// Function to delete users
 function deleteUser(userId) {
   console.log("Delete User Called");
   fetch("/delete-user", {
@@ -7,3 +8,9 @@ function deleteUser(userId) {
     window.location.href = "/users";
   });
 }
+
+// Fade out flash messages
+
+setTimeout(function () {
+  $(".alert").remove();
+}, 3000);
