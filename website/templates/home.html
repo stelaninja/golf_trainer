@@ -16,6 +16,7 @@
   <p><a class="btn btn-lg btn-success" href="{{ url_for('auth.sign_up') }}" role="button">Sign up</a></p>
   {% else %}
   <p><a class="btn btn-lg btn-success" href="/polls" role="button">Create a poll</a></p>
+  <div id="poll_container"></div>
   {% endif %}
 </div>
 <br />

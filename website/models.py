@@ -31,10 +31,26 @@ class Topics(Base):
     def __repr__(self):
         return self.title
 
+    def to_json(self):
+        return {
+            "title": self.title,
+            "options": [
+                {"name": option.option.name, "vote_count": option.vote_count}
+                for option in self.options.all()
+            ],
+            "status": self.status,
+        }
+
 
 # Model for poll options
 class Options(Base):
-    name = db.Column(db.String(200))
+    name = db.Column(db.String(200), unique=True)
+
+    def __repr__(self):
+        return self.name
+
+    def to_json(self):
+        return {"id": uuid.uuid4(), "name": self.name}
 
 
 # Model for polls

@@ -11,6 +11,12 @@ function deleteUser(userId) {
 
 // Fade out flash messages
 
-setTimeout(function () {
-  $(".alert").remove();
-}, 3000);
+// setTimeout(function () {
+//   $(".alert").remove();
+// }, 3000);
+
+$(document).ready(function () {
+  setTimeout(function () {
+    $(".alert").hide("blind", {}, 500);
+  }, 5000);
+});
